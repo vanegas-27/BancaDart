@@ -1,37 +1,82 @@
 // metodos clase
 import './class.dart';
 
-//diccionario para guardar las cuentas bancarias key:cuenta | values....
+//diccionario para guardar las cuentas bancarias key:cuenta | Cuenta/persona
 Map<String, Cuenta> _cuentas = {};
 
-// se ejecutan... crea/rechaza
+
+/**
+ * _guardar
+ * 
+ * este metodo se encarga de guardar la cuenta en el la lista de cuentas
+ * pero antes valida que haya pasado todos los filtros, para poder guardar
+ * 
+ * ------
+ * salida: String - bienvenida || rechazo
+ * ------
+ * 
+ * @params  {Cuenta} c - La cuenta a guardar
+ * 
+ * @return  {bool} - true si pudo ser guardada sin errores, false en caso contrario
+ */
 bool _guardar(Cuenta persona) {
 
-  Map user = validacionUser(persona);
+  Map user = _validacionUser(persona);
 
   if (user["success"] == true) {
+
+    //guarda cuenta
     _cuentas[persona.getNumCuenta.toString()] = persona;
+
+    //msg bienvenida
     persona.str();
+
     return true;
+
   } else {
+
+    //msg rechazo
     print(user["message"]); //muestra mensaje de error
+
     return false;
+
   }
 }
 
 
-//validaciones usuario
-Map validacionUser(Cuenta persona){
+/**
+ * _validacionUser
+ * 
+ * este metodo se encarga de ejecutar todos los filtros para ver si la persona
+ * cumple con los requesitos para crear una cuenta
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {Cuenta} c - La cuenta a validar
+ * 
+ * @return  {Map} - datos final de la validaciones
+ * 
+ */
+Map _validacionUser(Cuenta persona){
 
-    bool ubi = _ubiValida(persona.getUbicacion);
-    bool usuExist = _exits(persona.getDocumento, persona.getNumCuenta);
-    bool edad = _edadValida(persona.getEdad);
-    bool saldo = _saldoValido(persona.getSaldo);
+  //valida la ubicaion
+  bool ubi = _ubiValida(persona.getUbicacion);
 
-    bool crear = true;
-    String? msg;
+  //valida si existe una cuenta similar
+  bool usuExist = _exits(persona.getDocumento, persona.getNumCuenta);
 
-    if (usuExist) {
+  //valida la edad si la permitida
+  bool edad = _edadValida(persona.getEdad);
+
+  //valida el saldo requerido para crear
+  bool saldo = _saldoValido(persona.getSaldo);
+
+  bool crear = true;
+  String? msg;
+
+  if (usuExist) {
     crear = false;
     msg = "${persona.getNombre} lo sentimos el documento o cuenta ya existen";
   }
@@ -58,7 +103,22 @@ Map validacionUser(Cuenta persona){
 
 }
 
-//validar ubicacion
+
+/**
+ * _ubiValida
+ * 
+ * este metodo se encarga de validar la ubicacion, en este caso solo hay 4 corresponsales
+ * Ciudades : ["MEDELLIN", "BELLO", "SABANETA", "ITAGUI"]
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {String} ubicacion - La ubicacion a validar
+ * 
+ * @return  {bool} - si cumple devuelve un true, de lo contrario un false
+ * 
+ */
 bool _ubiValida(String? ubi) {
   List<String> locations = ["MEDELLIN", "BELLO", "SABANETA", "ITAGUI"];
   bool res = false;
@@ -73,7 +133,22 @@ bool _ubiValida(String? ubi) {
   return res;
 }
 
-//validar cuentas
+
+/**
+ * _exits
+ * 
+ * este metodo se encarga de validar si existe una cuenta con los datos similares
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {int} documento - documento a validar
+ * @params {int} cuenta -  numero de cuenta a buscar
+ * 
+ * @return  {bool} - si cumple devuelve un true, de lo contrario un false
+ * 
+ */
 bool _exits(int? documento, int? cuenta) {
   bool res = false;
 
@@ -87,7 +162,21 @@ bool _exits(int? documento, int? cuenta) {
   return res;
 }
 
-//validar edad
+
+/**
+ * _edadValida
+ * 
+ * este metodo se encarga de validar la edad, que sea la permitida
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {int} edad - la edad a validar
+ * 
+ * @return  {bool} - si cumple devuelve un true, de lo contrario un false
+ * 
+ */
 bool _edadValida(int? edad) {
   bool res = false;
   int eda = edad!;
@@ -99,7 +188,21 @@ bool _edadValida(int? edad) {
   return res;
 }
 
-//validacion saldo
+
+/**
+ * _saldoValido
+ * 
+ * este metodo se encarga de validar el saldo, minimo permitido es 50.000
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {double} saldo - el saldo a validar
+ * 
+ * @return  {bool} - si cumple devuelve un true, de lo contrario un false
+ * 
+ */
 bool _saldoValido(double? saldo) {
   bool res = false;
 
@@ -112,7 +215,23 @@ bool _saldoValido(double? saldo) {
   return res;
 }
 
-// enviar a ahorros
+
+/**
+ * sentAhorros
+ * 
+ * este metodo se encarga de valdiar y enviar dinero del saldo principal
+ * al saldo de ahorros, de igugal manera genera un movimineto
+ * 
+ * ------
+ * salida:  String  - mensaje con la informacion del envio o error
+ * ------
+ * 
+ * @params  {Cuenta} persona - cuenta  que va a realizar la operacion
+ * @params {double} envio - dinero a enviar
+ * 
+ * @return null
+ * 
+ */
 void sentAhorros(Cuenta persona, double envio) {
   double saldo = persona.getSaldo!;
   if (envio <= saldo) {
@@ -126,12 +245,29 @@ void sentAhorros(Cuenta persona, double envio) {
       "Saldo ahorro" : persona.getAhorros,
       "Saldo principal" : persona.getSaldo
     };
+    print("envio realizado con exito👍");
     return;
   }
   print("lo sentimos el envio no se pudo hacer saldo insuficiente");
 }
 
-//enviar a saldo
+
+/**
+ * sentSaldo
+ * 
+ * este metodo se encarga de valdiar y enviar dinero del saldo de ahorros
+ * al saldo principal, de igugal manera genera un movimineto
+ * 
+ * ------
+ * salida:  String  - mensaje con la informacion del envio o error
+ * ------
+ * 
+ * @params  {Cuenta} persona - cuenta  que va a realizar la operacion
+ * @params {double} envio - dinero a enviar
+ * 
+ * @return null
+ * 
+ */
 void sentSaldo(Cuenta persona, double envio) {
   double ahorro = persona.getAhorros!;
   if (envio <= ahorro) {
@@ -145,18 +281,51 @@ void sentSaldo(Cuenta persona, double envio) {
       "Saldo ahorro" : persona.getAhorros,
       "Saldo principal" : persona.getSaldo
     };
+    print("envio realizado con exito👍");
     return;
   }
   print("lo sentimos el envio no se pudo hacer ahorro insuficiente");
 }
 
-//ver datos
+
+/**
+ * verDatos
+ * 
+ * este metodo se encarga de mostar  los datos de una cuenta en un 
+ * formato ya predefinido por la clase
+ * 
+ * ------
+ * salida: String - datos de la cuenta
+ * ------
+ * 
+ * @params  {Cuenta} persona - la cuenta a conocer
+ * 
+ * @return null
+ * 
+ */
 void verDatos(Cuenta persona) {
   print(persona.description());
 }
 
-//crear cuenta/validar datos
-//guardar en el diccionario
+
+/**
+ * crearCuenta
+ * 
+ * este metodo se encarga de crear la cuenta con la clase base, pero cabe decir
+ * que esta no lo guarda, la tarea es crear una instancia nada mas, y pasarle esa instancia
+ * al metodo _guardar() que en este caso, este se encarga de ejecutar las validaciones
+ * anteriormente mencionadas como la edad, la ubicacion etc...
+ * 
+ * ------
+ * salida: null
+ * ------
+ * 
+ * @params  {Map} persona - datos de la cuenta a crear en un objecto
+ * 
+ * @return  {Cuenta} - si pasa los filtros devuelve el objecto cuenta
+ * @return null - si falla en algun filtro
+ * 
+ */
 dynamic crearCuenta(Map persona) {
   Cuenta data = Cuenta(
       persona["documento"],
@@ -175,9 +344,26 @@ dynamic crearCuenta(Map persona) {
 }
 
 
-//enviar dinero 
-  //validar saldo/usuario existente/0.5%/
-    //crear movimiento/validar datos movimientos
+/**
+ * enviarDinero
+ * 
+ * este metodo se encarga de validar y enviar dinero entre cuentas.
+ * tambien se encarga de generar los respectivos moviminetos para las cuentas
+ * involucradas en el envio
+ * 
+ * ------
+ * salida: {String} - mensaje informativo sea de error o success
+ * ------
+ * 
+ * @params {Cuenta} envia - la persona que realiza el envio
+ *  
+ * @params {Cuenta} recibe - la persona que recibe el envio
+ * 
+ * @params {double} valor - el valor del envio
+ * 
+ * @return null
+ * 
+ */
 void enviarDinero(Cuenta envia , Cuenta recibe, double valor){
 
   double saldoBruto = envia.getSaldo !- (valor * 0.05);
@@ -220,10 +406,24 @@ void enviarDinero(Cuenta envia , Cuenta recibe, double valor){
 
 }
 
-//retirar dinero
-  //validar saldo/usuario existente/0.5%/
-    //crear movimiento/validar datos movimientos
 
+/**
+ * retirarDinero
+ * 
+ * este metodo se encarga de validar y retirar dinero de la cuenta
+ * tambien se encarga de generar los respectivos moviminetos para la cuenta
+ * 
+ * ------
+ * salida: {String} - mensaje informativo sea de error o success
+ * ------
+ * 
+ * @params {Cuenta} retiro - la persona que realiza el retiro
+ * 
+ * @params {double} valor - el valor del envio
+ * 
+ * @return null
+ * 
+ */
 void retirarDinero(Cuenta persona,valor){
 
   double saldoBruto = persona.getSaldo !- (valor * 0.05);

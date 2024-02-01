@@ -12,8 +12,8 @@ Map davidson = {
 };
 
 Map isabel = {
-  "documento": 100,
-  "cuenta": 123,
+  "documento": 1002040302,
+  "cuenta": 1234567,
   "nombre": "isabel",
   "apellido": "vanegas",
   "edad": 20,
@@ -24,22 +24,19 @@ Map isabel = {
 
 
 void main() {
+  
   //implementar metodos
-  // insertar(davidson);
+
   dynamic persona1 = crearCuenta(davidson);
   dynamic persona2 = crearCuenta(isabel);
 
   double valor = 23000;
   double valor2 = 25000;
 
-  
-  verDatos(persona1);
-  verDatos(persona2);
-
   enviarDinero(persona1 , persona2, valor);
   retirarDinero(persona2, valor2);
 
   verDatos(persona1);
   verDatos(persona2);
-
+  
 }

@@ -2,7 +2,7 @@
 
 > En este ejercicio debemos de construir un software que permita gestionar las funciones cotidianas de una cuenta bancaria. tales como...
 
-> - envio y retiro de dinero
+> - envio y retiro de dinero👍
 > - consultar datos👍
 > - poder mover el dinero a dinero de ahorros y viceversa👍
 > - ver moviminetos de cuenta👍
