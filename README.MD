@@ -5,12 +5,12 @@
 > - envio y retiro de dinero
 > - consultar datos👍
 > - poder mover el dinero a dinero de ahorros y viceversa👍
-> - ver moviminetos de cuenta
+> - ver moviminetos de cuenta👍
 
 
 ## movimientos
 
-este debe de mostrar informacion tales como...
+## este debe de mostrar informacion tales como...
 
 ### retiro
 
@@ -18,8 +18,8 @@ este debe de mostrar informacion tales como...
 > - numero de cuenta
 > - corresponsal/ubicacion
 > - valor neto del 0.5%
--> valor de retiro
--> dinero restante
+> - valor de retiro
+> - dinero restante
 
 ### consignacion
 
@@ -33,16 +33,16 @@ este debe de mostrar informacion tales como...
 
 ## validaciones persona
 
-> - mayor de 18 años👍
-> - solo se puede abrir cuenta en medellin,bello,sabaneta y itagui👍
-> - saldo minimo para crear cuenta es de 50000 mil pesos👍
-> - verifiar que no haya una cuenta con el mismo cc y n° cuenta👍
+> - mayor de 18 años
+> - solo se puede abrir cuenta en medellin,bello,sabaneta y itagui
+> - saldo minimo para crear cuenta es de 50000 mil pesos
+> - verifiar que no haya una cuenta con el mismo cc y n° cuenta
 
 ## validaciones cuenta
 
 > esta aplicacion debe de validar multiples aspectos antes de enviar o retirar dinero, tales como...
 
-> - la existencia de un usuario
+> - la existencia de un usuario 
 > - el saldo disponible para elaborar cualquier movimineto
 > - descuento por envio/retiro del 0.5%
 > - validar que el monto a enviar/retirar sea menor quel monto en cuenta(incluye el 0.5%)

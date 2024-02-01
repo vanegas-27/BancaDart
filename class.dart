@@ -14,7 +14,8 @@ class Cuenta {
   int _cont = 0;
 
   //construct
-  Cuenta(this._documento, this._numCuenta, this._nombre, this._apellido,this._edad, this._saldo, String ubicacion) {
+  Cuenta(this._documento, this._numCuenta, this._nombre, this._apellido,
+      this._edad, this._saldo, String ubicacion) {
     this._ubicacion = ubicacion.toUpperCase();
   }
 
@@ -54,7 +55,7 @@ class Cuenta {
 | Saldo: ${this._saldo}
 | Ubicación: ${this._ubicacion}
 | Ahorros: ${this._ahorros}
+| Movimientos ${this._moviminetos}
     ''';
   }
-
 }
